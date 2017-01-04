@@ -6,46 +6,71 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
 
         <link rel="shortcut icon" href="/static/img/favicon.ico" />
-        <title>About - Stack Problems</title>
-        <meta name="author" content="이상훈" />
-        <meta name="description" content="About" />
-        <meta name="keywords" content="About, Stack Problems, " />
+        <title>{% if page.title %}{{ page.title }} - {{ site.title }}{% else %}{{ site.author }}{% endif %}</title>
+        <meta name="author" content="{{ site.author }}" />
+        <meta name="description" content="{% if page.title %}{{ page.title }}{% else %}{{ site.description }}{% endif %}" />
+        <meta name="keywords" content="{% if page.title %}{{ page.title }}, {{ site.title }}, {% for categ in page.categories %}{{ categ }}{% if forloop.last == false %}, {% endif %}{% endfor %}{% else %}{{ site.title }}, {% for category in site.categories %}{% capture categories_slug %}{{ category | first }}{% endcapture %}{% for categ in categories_slug %}{{ categ }}{% endfor %}{% if forloop.last == false %}, {% endif %}{% endfor %}{% endif %}" />
         <link rel="alternate" type="application/rss+xml" title="RSS" href="/feed.xml">
 
-        <meta content="1749788565247320" property="fb:app_id">
-        <meta content="Stack Problems" property="og:site_name">
-        
-          <meta content="About" property="og:title">
-        
-        
+        <meta content="{{ site.share.fb_appid }}" property="fb:app_id">
+        <meta content="{{ site.title }}" property="og:site_name">
+        {% if page.title %}
+          <meta content="{{ page.title }}" property="og:title">
+        {% else %}
+          <meta content="{{ site.title }}" property="og:title">
+        {% endif %}
+        {% if page.title %}
           <meta content="article" property="og:type">
-        
-        
-          <meta content="My Personal Stack Problems" property="og:description">
-        
-        
-          <meta content="http://localhost:4000/about/" property="og:url">
-        
-        
-        
-          <meta content="http://localhost:4000/static/img/logo-high-resolution.png" property="og:image">
-        
-        
-        
+        {% else %}
+          <meta content="website" property="og:type">
+        {% endif %}
+        {% if page.description %}
+          <meta content="{{ page.description }}" property="og:description">
+        {% else %}
+          <meta content="{{ site.description }}" property="og:description">
+        {% endif %}
+        {% if page.url %}
+          <meta content="{{ site.url }}{{ page.url }}" property="og:url">
+        {% endif %}
+        {% if page.date %}
+          <meta content="{{ page.date | date_to_xmlschema }}" property="article:published_time">
+          <meta content="{{ site.url }}/about/" property="article:author">
+        {% endif %}
+        {% if page.image %}
+          <meta content="{{ site.url }}/static/img/posts/{{ page.image }}" property="og:image">
+        {% else %}
+          <meta content="{{ site.url }}/static/img/logo-high-resolution.png" property="og:image">
+        {% endif %}
+        {% if page.categories %}
+          {% for category in page.categories limit:1 %}
+          <meta content="{{ category }}" property="article:section">
+          {% endfor %}
+        {% endif %}
+        {% if page.tags %}
+          {% for tag in page.tags %}
+          <meta content="{{ tag }}" property="article:tag">
+          {% endfor %}
+        {% endif %}
 
         <meta name="twitter:card" content="summary">
-        <meta name="twitter:site" content="@agusmakmun6">
-        <meta name="twitter:creator" content="@agusmakmun6">
-        
-          <meta name="twitter:title" content="About">
-        
-        
-          <meta name="twitter:url" content="http://localhost:4000/about/">
-        
-        
-          <meta name="twitter:description" content="My Personal Stack Problems">
-        
-        
+        <meta name="twitter:site" content="@{{ site.share.twitter_username }}">
+        <meta name="twitter:creator" content="@{{ site.share.twitter_username }}">
+        {% if page.title %}
+          <meta name="twitter:title" content="{{ page.title }}">
+        {% else %}
+          <meta name="twitter:title" content="{{ site.title }}">
+        {% endif %}
+        {% if page.url %}
+          <meta name="twitter:url" content="{{ site.url }}{{ page.url }}">
+        {% endif %}
+        {% if page.description %}
+          <meta name="twitter:description" content="{{ page.description }}">
+        {% else %}
+          <meta name="twitter:description" content="{{ site.description }}">
+        {% endif %}
+        {% if page.header-img %}
+          <meta name="twitter:image:src" content="{{ site.url }}/{{ page.header-img }}">
+        {% endif %}
 
         <!-- Font awesome icons -->
         <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
@@ -72,7 +97,7 @@
           m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
           })(window,document,'script','https://www.google-analytics.com/analytics.js','ga');
           
-          ga('create', 'UA-XXXXXXXX-Y', 'auto');
+          ga('create', '{{ site.google_analytics }}', 'auto');
           ga('send', 'pageview');
         </script>
     </head>
@@ -82,20 +107,18 @@
             <div class="col-sm-3">
               <div class="fixed-condition">
                 <a href="/"><img id="about" src="/static/img/avatar.jpg" height="75px" width="75px" /></a>
-                <h1 class="author-name">이상훈</h1>
-                
+                <h1 class="author-name">{{ site.author }}</h1>
+                {% if site.about %}
                 <div id="about">
-                    I am freelance developer. Currently doing more in backend, actually in Python and Django.
+                    {{ site.about }}
                 </div>
-                
+                {% endif %}
 
                 <div class="social">
                     <ul>
-                        
-                            <li><a href="https://www.facebook.com/sanghoon.lee.543908" target="_blank"><i class="fa fa-facebook"></i></a></li>
-                        
-                            <li><a href="https://github.com/digimon1740" target="_blank"><i class="fa fa-github"></i></a></li>
-                        
+                        {% for link in site.social %}
+                            <li><a href="{{ link.link }}" target="_blank"><i class="fa {{ link.icon }}"></i></a></li>
+                        {% endfor %}
                     </ul>
                 </div>
 
@@ -107,41 +130,20 @@
 
                 <strong>Navigation</strong><br />
                     &nbsp;&raquo; <a href="/">Home</a> <br />
-                
-                    &nbsp;&raquo; <a class="about" href="/about/">About Me</a><br />
-                
-                    &nbsp;&raquo; <a class="about" href="/projects/">Projects</a><br />
-                
-                    &nbsp;&raquo; <a class="about" href="https://github.com/agusmakmun">Github</a><br />
-                
-                    &nbsp;&raquo; <a class="about" href="/feed.xml">XML Feed</a><br />
-                
+                {% for i in site.urls %}
+                    &nbsp;&raquo; <a class="about" href="{{ i.url }}">{{ i.text }}</a><br />
+                {% endfor %}
               </div><!-- end /.fixed-condition -->
             </div>
 
             <div class="col-sm-8 col-offset-1">
-                <article class="post">
-
-  <header class="post-header">
-    <h1 class="post-title">About</h1>
-    <hr />
-  </header>
-
-  <div class="post-content">
-    <p>I am freelance developer. Currently doing more in backend, actually in Python and Django.</p>
-
-<p>email: agus[at]python.web.id</p>
-
-  </div>
-
-</article>
-
+                {{ content }}
 
                 <footer>
-                    &copy; 이상훈
-                     
-                    - <a href="https://github.com/agusmakmun">https://github.com/agusmakmun</a> - Powered by Jekyll.
-                    
+                    &copy; {{ site.author }}
+                    {% if site.github %} 
+                    - <a href="{{ site.github }}">{{ site.github }}</a> - Powered by Jekyll.
+                    {% endif %}
 
                     <div class="btn-github" style="float:right;">
                         <iframe src="https://ghbtns.com/github-btn.html?user=agusmakmun&repo=agusmakmun.github.io&type=star&count=true" frameborder="0" scrolling="0" width="85" height="20px"></iframe>                    
