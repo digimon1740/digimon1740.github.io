@@ -37,4 +37,4 @@ Type Decrypt  : md5
 End time      : 06:53:06
 ```
 
-For more you can checkout on our repository: [https://github.com/agusmakmun/Crazy-Decrypter](https://github.com/agusmakmun/Crazy-Decrypter)
+For more you can checkout on our repository: [https://github.com/digimon1740/Crazy-Decrypter](https://github.com/digimon1740/Crazy-Decrypter)

@@ -1,8 +1,8 @@
 title: Stack Problems
 description: My Personal Stack Problems
 author: 이상훈
-github: https://github.com/agusmakmun
-about: I am freelance developer. Currently doing more in backend, actually in Python and Django.
+github: https://github.com/digimon1740
+about: 자바와 자바스크립트 파이썬을 사랑하는 개발자입니다.
 disqus_shortname: stackproblems
 google_analytics: UA-XXXXXXXX-Y
 
@@ -23,7 +23,6 @@ social:
 #      link: "#"
 
 share:
-  twitter_username: agusmakmun6
   fb_appid: 1749788565247320
 
 urls:
@@ -32,11 +31,11 @@ urls:
     - text: Projects
       url: /projects/
     - text: Github
-      url: https://github.com/agusmakmun
+      url: https://github.com/digimon1740
     - text: XML Feed
       url: /feed.xml
 
-url: "https://agusmakmun.github.io"
+url: "https://digimon1740.github.com"
 baseurl: ""
 paginate: 20
 per_page: 20

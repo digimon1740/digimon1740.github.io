@@ -4,6 +4,6 @@ title: About
 permalink: /about/
 ---
 
-I am freelance developer. Currently doing more in backend, actually in Python and Django.
+자바와 자바스크립트 파이썬을 사랑하는 개발자입니다.
 
-email: agus[at]python.web.id
+email: digimon.1740@gmail.com
