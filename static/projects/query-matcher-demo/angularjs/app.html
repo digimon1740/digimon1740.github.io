@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en" data-framework="angularjs">
+<head>
+	<meta charset="UTF-8">
+	<title>AngularJS + QueryMatcher</title>
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/bootstrap-theme.min.css">
+</head>
+<body ng-app="helloApp">
+<div class="wrapper" ng-controller="main">
+	<header id="header" class="bg-primary">
+		<h1>AngularJS + QueryMatcher Demo</h1>
+	</header>
+	<section>
+		<a href="https://github.com/digimon1740/QueryMatcherJS">Go QueryMatcher Repository</a>
+	</section>
+	<section id="filters">
+		<select ng-model="condition.gender">
+			<option value="all">gender</option>
+			<option value="male">male</option>
+			<option value="female">female</option>
+		</select>
+		<select ng-model="condition.job">
+			<option value="all">job</option>
+			<option value="presidents">presidents</option>
+			<option value="singer">singer</option>
+		</select>
+		<input type="text" style="width:200px;" placeholder="please input keyword" ng-model="query"/>
+	</section>
+	<div class="table-responsive">
+		<table class="table table-bordered table-striped">
+			<thead>
+			<tr>
+				<th>name</th>
+				<th>gender</th>
+				<th>job</th>
+				<th>spouse</th>
+			</tr>
+			</thead>
+			<tbody>
+			<tr ng-repeat="person in filteredPersons = (persons | filter:filterPersons)">
+				<td>{{person.fullName}}</td>
+				<td>{{person.gender}}</td>
+				<td>{{person.job}}</td>
+				<td>{{person.spouse.fullName}}</td>
+			</tr>
+			</tbody>
+		</table>
+	</div>
+</div>
+<script src="js/lib/jquery-3.1.1.min.js"></script>
+<script src="js/lib/bootstrap.min.js"></script>
+<script src="js/lib/angular.min.js"></script>
+<script src="js/objectUtils.js"></script>
+<script src="js/queryMatcher.js"></script>
+<script>
+	'use strict';
+	var app = angular.module('helloApp', []);
+	app.controller('main', ['$scope', function ($scope) {
+
+		// init model
+		$scope.persons = [{
+			first: 'Abraham',
+			last: 'Lincoln',
+			fullName: 'Abraham Lincoln',
+			gender: 'male',
+			job: 'presidents',
+			spouse: {
+				first: 'Mary Todd',
+				last: 'Lincoln',
+				fullName: 'Mary Todd Lincoln',
+			}
+		}, {
+			first: 'Donald',
+			last: 'Trump',
+			fullName: 'Donald Trump',
+			gender: 'male',
+			job: 'presidents',
+			spouse: {
+				first: 'Melanija Knavs',
+				last: 'Trump',
+				fullName: 'Melanija Knavs Trump',
+			}
+		}, {
+			first: 'Mariah',
+			last: 'Carey',
+			fullName: 'Mariah Carey',
+			gender: 'female',
+			job: 'singer',
+			spouse: {
+				first: 'Nick',
+				last: 'Cannon',
+				fullName: 'Nick Cannon',
+			}
+		}, {
+			first: 'Taylor',
+			last: 'Swift',
+			fullName: 'Taylor Swift',
+			gender: 'female',
+			job: 'singer',
+		}, {
+			first: 'Jason',
+			last: 'Mraz',
+			fullName: 'Jason Mraz',
+			gender: 'male',
+			job: 'singer'
+		}];
+
+		// init filter condition
+		$scope.condition = {
+			gender: 'all',
+			job: 'all'
+		};
+
+		$scope.filterPersons = function (person) {
+			var condition = $scope.condition;
+			var gender = condition.gender;
+			var job = condition.job;
+			var query = $scope.query; // inputbox value
+
+			var andClause = {
+				andFields: ['gender', 'job'],
+				andValues: [gender, job]
+			};
+
+			var orClause = {
+				orFields: ['first', 'last', 'fullName', 'gender', 'job', 'spouse.first', 'spouse.last', 'spouse.fullName'],
+				orValues: [query, query, query, query, query, query, query, query]
+			};
+
+			var queryMatcher = new QueryMatcher(person);
+			return queryMatcher.containsAll(andClause) && queryMatcher.containsAll(orClause);
+		};
+	}]);
+</script>
+</body>
+</html>
