@@ -14,7 +14,7 @@ var ObjectUtils = (function () {
 	/************************************
 	 Prototype
 	 ************************************/
-	ObjectUtils.prototype.getLastChainObjectValueByCommaSeparator = getLastChainObjectValueByCommaSeparator;
+	ObjectUtils.prototype.getObject = getObject;
 
 	/************************************
 	 Functions
@@ -33,10 +33,10 @@ var ObjectUtils = (function () {
 	 * var field = 'man.sanghoon';
 	 *
 	 * var objectUtil = new ObjectUtils(person);
-	 * var sanghoon = objectUtil.getLastChainObjectValueByCommaSeparator(field);
+	 * var sanghoon = objectUtil.getObject(field);
 	 * console.log(sanghoon);
 	 */
-	function getLastChainObjectValueByCommaSeparator(sourceField) {
+	function getObject(sourceField) {
 		if (!sourceField) {
 			return void 0;
 		}
